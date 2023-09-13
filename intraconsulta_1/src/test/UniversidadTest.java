@@ -1,9 +1,15 @@
-package intraconsulta;
+package test;
+
+
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import intraconsulta.*;
 
 public class UniversidadTest {
 
@@ -45,7 +51,7 @@ public class UniversidadTest {
 	public void queSePuedaRegistrarUnAlumno() {
 
 
-		uni.registrarAlumno(alumno1);
+		uni.agregarAlumnos(alumno1);
 
 		assertNotNull(alumno1);
 
@@ -55,7 +61,7 @@ public class UniversidadTest {
 
 	public void queSePuedaCrearMateria() {
 
-		boolean registro = uni.registrarMateria(materia1);
+		boolean registro = uni.agregarMaterias(materia1);
 
 		assertTrue(registro);
 		assertNotNull(materia1);
@@ -85,8 +91,8 @@ public class UniversidadTest {
 		Integer sicloLectivo = 203;
 		Aula aula = new Aula(123, 40);
 		
-		uni.registrarAlumno(alumno1);
-		uni.registrarMateria(materia1);
+		uni.agregarAlumnos(alumno1);
+		uni.agregarMaterias(materia1);
 		Curso curso = new Curso(codigo, materia1, sicloLectivo, aula);
 		uni.crearCurso(curso);
 		
@@ -96,5 +102,26 @@ public class UniversidadTest {
 		assertFalse(curso.getAula().isDisponible());
 		
 	}
+	
+	@Test
+
+    public void crearCicloLectivo  (){
+		Integer id = 12312;	
+		LocalDate fechaInicioInscripcion = LocalDate.of(2023, 3, 15);
+		LocalDate fechaFinalizacionInscripcion = LocalDate.of(2023, 3, 23);
+		LocalDate fechaInicioCicloLectivo = LocalDate.of(2023, 3, 27);
+	    LocalDate fechaFinalizacionCicloLectivo = LocalDate.of(2023, 7, 15);
+	   
+	    CicloLectivo ciclo = new CicloLectivo(id,fechaInicioInscripcion,fechaFinalizacionInscripcion
+	    		,fechaInicioCicloLectivo,fechaFinalizacionCicloLectivo);
+	    
+	    boolean eperado = uni.crearCicloLectivo(ciclo);
+	    
+	    assertEquals(1, uni.getCiclosLectivos().size());
+	    assertTrue(eperado);
+	    
+	    
+	}
+
 
 }

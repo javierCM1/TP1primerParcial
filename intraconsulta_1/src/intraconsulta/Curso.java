@@ -2,52 +2,84 @@ package intraconsulta;
 
 public class Curso {
 	
-	private Integer codigo;
+	private Integer idCurso;
 	private Materia materia;
-	private Integer cicloLectivo;
+	private CicloLectivo ciclo;
 	private Aula aula;
-	private String dia;
-	/**
-	 * @param codigo
-	 * @param materia
-	 * @param cicloLectivo
-	 * @param aula
-	 */
-	public Curso(Integer codigo, Materia materia, Integer cicloLectivo, Aula aula) {
+	private String turno;
+	private Integer cantidadDeAlumnos;
+	
+	
+	public Curso(Integer idCurso, Materia materia, CicloLectivo ciclo, Aula aula, String turno,
+			Integer cantidadDeAlumnos) {
 		super();
-		this.codigo = codigo;
+		this.idCurso = idCurso;
 		this.materia = materia;
-		this.cicloLectivo = cicloLectivo;
+		this.ciclo = ciclo;
 		this.aula = aula;
+		this.turno = turno;
+		this.cantidadDeAlumnos = cantidadDeAlumnos;
 	}
-	public Integer getCodigo() {
-		return codigo;
+
+
+	public Integer getIdCurso() {
+		return idCurso;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+
+
+	public void setIdCurso(Integer idCurso) {
+		this.idCurso = idCurso;
 	}
+
+
 	public Materia getMateria() {
 		return materia;
 	}
+
+
 	public void setMateria(Materia materia) {
 		this.materia = materia;
 	}
-	public Integer getCicloLectivo() {
-		return cicloLectivo;
+
+
+	public CicloLectivo getCiclo() {
+		return ciclo;
 	}
-	public void setCicloLectivo(Integer cicloLectivo) {
-		this.cicloLectivo = cicloLectivo;
+
+
+	public void setCiclo(CicloLectivo ciclo) {
+		this.ciclo = ciclo;
 	}
+
+
 	public Aula getAula() {
 		return aula;
 	}
+
+
 	public void setAula(Aula aula) {
 		this.aula = aula;
 	}
-	
-	
-	
 
-	
+
+	public String getTurno() {
+		return turno;
+	}
+
+
+	public void setTurno(String turno) {
+		this.turno = turno;
+	}
+
+
+	public Integer getCantidadDeAlumnos() {
+		return cantidadDeAlumnos;
+	}
+
+
+	public void setCantidadDeAlumnos(Integer cantidadDeAlumnos) {
+		this.cantidadDeAlumnos = cantidadDeAlumnos;
+	}
+
 	
 }

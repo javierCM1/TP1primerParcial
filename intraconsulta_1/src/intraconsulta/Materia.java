@@ -7,12 +7,14 @@ public class Materia {
 	
 	private Integer codigoMateria;
 	private String nombre;
+	private ArrayList<Materia> correlativas;
 	
 
 	public Materia(Integer codigoMateria, String nombre) {
 		super();
 		this.codigoMateria = codigoMateria;
 		this.nombre = nombre;
+		this.correlativas = new ArrayList<>();
 	}
 	public Integer getCodigoMateria() {
 		return codigoMateria;
@@ -27,7 +29,6 @@ public class Materia {
 		this.nombre = nombre;
 	}
 
-	
 	
 }
 

@@ -11,6 +11,7 @@ public class Universidad {
 	private ArrayList<AsignacionCursoAlumno> inscripcionesAlumnos;
 	private ArrayList<Curso> cursos;
 	private ArrayList<Aula> aulas;
+	private ArrayList<CicloLectivo> ciclosLectivos;
 
 	public Universidad(String nombre) {
 		super();
@@ -21,25 +22,64 @@ public class Universidad {
 		this.inscripcionesAlumnos = new ArrayList<>();
 		this.cursos = new ArrayList<>();
 		this.aulas = new ArrayList<>();
+		this.ciclosLectivos = new ArrayList<>();
 
 	}
 
-	public boolean registrarAlumno(Alumno alumno) {
-
-		return alumnos.add(alumno);
-	}
-
-	public boolean registrarProfesor(Profe profe) {
-		return profes.add(profe);
-	}
-
-	public boolean registrarMateria(Materia materia) {
+	public boolean agregarMaterias(Materia materia) {
+		
+		for (Materia materiaExistente : materias) {
+			if (materiaExistente.getNombre().equals(materia.getNombre())) {
+				return false;
+			}
+		}
 		return materias.add(materia);
 	}
 
+	public boolean agregarAlumnos(Alumno alumno) {
+
+		for (Alumno alumno1 : alumnos) {
+			if (alumno1.getDni() == alumno.getDni()) {
+				return false;
+			}
+		}
+		return alumnos.add(alumno);
+	}
+
+	public boolean crearCicloLectivo(CicloLectivo ciclo) {
+		for (CicloLectivo ciclo1 : ciclosLectivos) {
+			if(ciclo1.getId() == ciclo.getId()) {
+				return false;
+			}
+		}
+		return ciclosLectivos.add(ciclo);
+	}
+
 	public boolean crearCurso(Curso curso) {
-		curso.getAula().setDisponible(false);
+		for (Curso curso1 : cursos) {
+			if(curso1.getMateria().getCodigoMateria().equals(curso.getMateria().getCodigoMateria())
+					&& curso1.getCiclo().getId().equals(curso.getCiclo().getId()) 
+					&& curso1.getTurno().equals(curso.getTurno())) {
+				
+				return false;
+			}
+		}
+		
 		return cursos.add(curso);
+	}
+	
+	public boolean crearDocentes(Profe profe) {
+		
+		for (Profe profe1 : profes) {
+			if(profe1.getDni().equals(profe.getDni())) {
+				return false;
+			}
+		}
+		return profes.add(profe);
+	}
+	
+	public boolean AsiganarMateriaCorrelativa(Integer codigoMateria,Integer codigoDeMateriaCorrelativa) {
+		
 	}
 
 	public Alumno buscarAlumnoPorDNI(Integer dni) {
@@ -88,7 +128,7 @@ public class Universidad {
 		Curso curso = buscarCursoPorCodigoDeMateria(codigoDeMateria);
 
 		if (alumno != null && curso != null) {
-			AsignacionCursoAlumno inscripcion = new AsignacionCursoAlumno(alumno, curso);
+			AsignacionCursoAlumno inscripcion = new AsignacionCursoAlumno(9768, alumno, curso);
 			return inscripcionesAlumnos.add(inscripcion);
 		}
 
@@ -133,6 +173,14 @@ public class Universidad {
 			System.out.println("nombre: " + materia.getNombre());
 			System.out.println();
 		}
+	}
+
+	public ArrayList<CicloLectivo> getCiclosLectivos() {
+		return ciclosLectivos;
+	}
+
+	public void setCiclosLectivos(ArrayList<CicloLectivo> ciclosLectivos) {
+		this.ciclosLectivos = ciclosLectivos;
 	}
 
 }
