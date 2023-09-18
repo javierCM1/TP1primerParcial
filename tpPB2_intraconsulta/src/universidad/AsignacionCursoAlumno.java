@@ -1,4 +1,4 @@
-package intraconsulta;
+package universidad;
 
 
 public class AsignacionCursoAlumno {

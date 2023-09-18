@@ -1,7 +1,6 @@
-package intraconsulta;
+package universidad;
 
 import java.util.ArrayList;
-
 
 public class Universidad {
 
@@ -28,7 +27,7 @@ public class Universidad {
 	}
 
 	public boolean agregarMaterias(Materia materia) {
-		
+
 		for (Materia materiaExistente : materias) {
 			if (materiaExistente.getNombre().equals(materia.getNombre())) {
 				return false;
@@ -49,7 +48,7 @@ public class Universidad {
 
 	public boolean crearCicloLectivo(CicloLectivo ciclo) {
 		for (CicloLectivo ciclo1 : ciclosLectivos) {
-			if(ciclo1.getId() == ciclo.getId()) {
+			if (ciclo1.getId() == ciclo.getId()) {
 				return false;
 			}
 		}
@@ -58,93 +57,105 @@ public class Universidad {
 
 	public boolean crearCurso(Curso curso) {
 		for (Curso curso1 : cursos) {
-			if(curso1.getMateria().getCodigoMateria().equals(curso.getMateria().getCodigoMateria())
-					&& curso1.getCiclo().getId().equals(curso.getCiclo().getId()) 
+			if (curso1.getMateria().getCodigoMateria().equals(curso.getMateria().getCodigoMateria())
+					&& curso1.getCiclo().getId().equals(curso.getCiclo().getId())
 					&& curso1.getTurno().equals(curso.getTurno())) {
 				return false;
 			}
 		}
-		
+
 		return cursos.add(curso);
 	}
-	
+
 	public boolean crearDocentes(Profe profe) {
-		
+
 		for (Profe profe1 : profes) {
-			if(profe1.getDni().equals(profe.getDni())) {
+			if (profe1.getDni().equals(profe.getDni())) {
 				return false;
 			}
 		}
 		return profes.add(profe);
 	}
-	
-	public boolean AsiganarMateriaCorrelativa(Integer codigoMateria,Integer codigoDeMateriaCorrelativa) {
-		
+
+	public boolean AsiganarMateriaCorrelativa(Integer codigoMateria, Integer codigoDeMateriaCorrelativa) {
+
 		Materia materiaPrincipal = buscarMateria(codigoMateria);
 		Materia materiaCorrelativa = buscarMateria(codigoDeMateriaCorrelativa);
-		
-		if (materiaPrincipal == null ||  materiaCorrelativa == null) {
+
+		if (materiaPrincipal == null || materiaCorrelativa == null) {
 			return false;
 		}
 		return materiaPrincipal.agregarMateriaCorrelativa(materiaCorrelativa);
 	}
-	
+
 	public boolean EliminarCorrelativa(Integer codigoMateria, Integer codigoCorrelativaAELiminar) {
-	    Materia materiaPrincipal = buscarMateria(codigoMateria);
+		Materia materiaPrincipal = buscarMateria(codigoMateria);
 
-	    if (materiaPrincipal == null) {
-	        return false;
-	    }
-	  
-	    Materia materiaCorrelativaAEliminar = materiaPrincipal.buscarMateriaCorrelativa(codigoCorrelativaAELiminar);
-
-	    if (materiaCorrelativaAEliminar == null) {
-	        return false; 
-	    }
-
-	  
-	    return materiaPrincipal.eliminarMateria(materiaCorrelativaAEliminar);
-	}
-	
-	public boolean InscribirAlumnoACurso(Integer dni, Integer codigoCurso) {
-
-	}
-	
-	public boolean asignarProfesoresALCurso(Integer idCurso,Integer dniDocente) {
-		
-		Profe profe =  buscarProfePorDNI(dniDocente);
-		
-		if(profe == null) {
+		if (materiaPrincipal == null) {
 			return false;
 		}
-		
+
+		Materia materiaCorrelativaAEliminar = materiaPrincipal.buscarMateriaCorrelativa(codigoCorrelativaAELiminar);
+
+		if (materiaCorrelativaAEliminar == null) {
+			return false;
+		}
+
+		return materiaPrincipal.eliminarMateria(materiaCorrelativaAEliminar);
+	}
+
+	/*
+	 * public boolean InscribirAlumnoACurso(Integer dni, Integer codigoCurso) {
+	 * 
+	 * }
+	 */
+	public boolean asignarProfesoresALCurso(Integer idCurso, Integer dniDocente) {
+
+		Profe profe = buscarProfePorDNI(dniDocente);
+
+		if (profe == null) {
+			return false;
+		}
+
 		Curso curso = buscarCursoPorid(idCurso);
-		
+
 		if (curso == null) {
 			return false;
 		}
-		
-		Integer numeroAlumnos = curso.getCantidadDeAlumnos();
-		
-		Integer profesoresNecesarios = (numeroAlumnos / 20) + 1;
-		
-		  for (int i = 0; i < profesoresNecesarios; i++) {
-	            AsignacionCursoProfe asignacion = new AsignacionCursoProfe( 43564,profe, curso);
-	            inscripcionesProfe.add(asignacion);
-	        }
 
-	        return true;
+		Integer numeroAlumnos = curso.getCantidadDeAlumnos();
+
+		Integer profesoresNecesarios = numeroAlumnos / 20;
+
+		if (numeroAlumnos % 20 != 0) {
+			profesoresNecesarios++;
+		}
+
+		if (profesoresNecesarios >= 1) {
+			AsignacionCursoProfe asignacion = new AsignacionCursoProfe(profe, curso);
+			inscripcionesProfe.add(asignacion);
+			return true;
+		}
 		
 		
-		
-		
+		return false;
 	}
-	
+
 	public Alumno buscarAlumnoPorDNI(Integer dni) {
 
 		for (Alumno alumno : alumnos) {
 			if (alumno.getDni().equals(dni)) {
 				return alumno;
+			}
+		}
+		return null;
+	}
+	
+	public AsignacionCursoProfe buscarAsignacionprofe(Integer idCurso) {
+		
+		for (AsignacionCursoProfe asignar : inscripcionesProfe) {
+			if(asignar.getCurso().getIdCurso().equals(idCurso)) {
+				return asignar;
 			}
 		}
 		return null;
@@ -163,7 +174,7 @@ public class Universidad {
 	public Curso buscarCursoPorid(Integer idCurso) {
 
 		for (Curso curso : cursos) {
-			if(curso.getIdCurso().equals(idCurso)) {
+			if (curso.getIdCurso().equals(idCurso)) {
 				return curso;
 			}
 		}
@@ -179,8 +190,6 @@ public class Universidad {
 		}
 		return null;
 	}
-
-	
 
 	public void imprimirAlumno() {
 		boolean alumnosRegistrado = false;
