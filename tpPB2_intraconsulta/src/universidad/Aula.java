@@ -4,6 +4,7 @@ public class Aula {
 
 	private Integer NroAula;
 	private Integer capasidad;
+	private Integer contadorDeAlumno;
 	private boolean disponible;
 
 	public Aula(Integer nroAula, Integer capasidad) {
@@ -11,6 +12,15 @@ public class Aula {
 		this.NroAula = nroAula;
 		this.capasidad = capasidad;
 		this.disponible = true;
+		this.contadorDeAlumno = capasidad;
+	}
+
+	public Integer getContadorDeAlumno() {
+		return contadorDeAlumno;
+	}
+
+	public void setContadorDeAlumno(Integer contadorDeAlumno) {
+		this.contadorDeAlumno = contadorDeAlumno;
 	}
 
 	public Integer getNroAula() {

@@ -7,13 +7,27 @@ public class Materia {
 	private Integer codigoMateria;
 	private String nombre;
 	private ArrayList<Materia> correlativas;
+	private boolean aprobado;
 
 	public Materia(Integer codigoMateria, String nombre) {
 		super();
 		this.codigoMateria = codigoMateria;
 		this.nombre = nombre;
 		this.correlativas = new ArrayList<>();
+		this.aprobado = false;
 	}
+	
+	
+
+	public boolean isAprobado() {
+		return aprobado;
+	}
+
+	public void setAprobado(boolean aprobado) {
+		this.aprobado = aprobado;
+	}
+
+
 
 	public Integer getCodigoMateria() {
 		return codigoMateria;

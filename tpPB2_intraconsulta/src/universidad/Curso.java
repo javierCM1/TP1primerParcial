@@ -19,6 +19,8 @@ public class Curso {
 		this.turno = turno;
 		this.cantidadDeAlumnos = cantidadDeAlumnos;
 	}
+	
+	
 
 	public Integer getIdCurso() {
 		return idCurso;

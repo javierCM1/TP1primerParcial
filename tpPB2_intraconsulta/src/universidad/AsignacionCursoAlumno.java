@@ -1,27 +1,17 @@
 package universidad;
 
-
 public class AsignacionCursoAlumno {
 
-	private Integer idAsignacion;
 	private Alumno alumno;
 	private Curso curso;
-    private Nota nota;
-    
-	public AsignacionCursoAlumno(Integer idInscripcion, Alumno alumno, Curso curso) {
+	private Nota nota;
+
+	public AsignacionCursoAlumno(Alumno alumno, Curso curso) {
 		super();
-		this.idAsignacion = idInscripcion;
 		this.alumno = alumno;
 		this.curso = curso;
 	}
 
-	public Integer getIdInscripcion() {
-		return idAsignacion;
-	}
-
-	public void setIdInscripcion(Integer idInscripcion) {
-		this.idAsignacion = idInscripcion;
-	}
 
 	public Alumno getAlumno() {
 		return alumno;
@@ -46,8 +36,5 @@ public class AsignacionCursoAlumno {
 	public void setNota(Nota nota) {
 		this.nota = nota;
 	}
-	
-	
-	
 
 }
