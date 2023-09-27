@@ -66,11 +66,11 @@ public class CursoTest {
 		Curso curso = new Curso(idCurso, materia1, ciclo, aula, turno, cantidadAlumnos);
 		Curso curso2 = new Curso(465465,materia1,ciclo,aula,turno,cantidadAlumnos);
 		
-		boolean resultado =  uni.crearCurso(curso);
-		boolean resultado2 = uni.crearCurso(curso2);
+		boolean registroCurso =  uni.crearCurso(curso);
+		boolean intentoRegistroCurso = uni.crearCurso(curso2);
 		
-		assertTrue(resultado);
-		assertFalse(resultado2);
+		assertTrue(registroCurso);
+		assertFalse(intentoRegistroCurso);
 		
 		
 		

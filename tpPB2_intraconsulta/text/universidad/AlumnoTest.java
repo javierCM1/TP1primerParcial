@@ -78,6 +78,7 @@ public class AlumnoTest {
 		
 		
 		assertEquals(AulaDisponible, ResultadoEsperado);
+		
 		assertTrue(alumnoCreado);
 		assertTrue(cursoCreado);
 		assertTrue(InscripcionDeAlumnoAcurso);

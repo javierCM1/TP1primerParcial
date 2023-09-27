@@ -70,16 +70,6 @@ public class Universidad {
 		return cursos.add(curso);
 	}
 
-	public boolean crearCicloLectivo(CicloLectivo ciclo) {
-		LocalDate inicioCiclo = ciclo.getFechaInicioCicloLectivo();
-		LocalDate finInscripcion = ciclo.getFechaFinalizacionInscripcion();
-
-		if (finInscripcion.isAfter(inicioCiclo) || finInscripcion.isEqual(inicioCiclo)) {
-			return false;
-		}
-		return ciclosLectivos.add(ciclo);
-	}
-
 	public boolean asiganarMateriaCorrelativa(Integer codigoMateria, Integer codigoDeMateriaCorrelativa) {
 
 		Materia materiaPrincipal = buscarMateria(codigoMateria);
@@ -118,8 +108,8 @@ public class Universidad {
 			return false;
 		}
 
-		// valida que que no se pueda inscrivir a la misma materia con mismo ciclo
-		// lectivo
+		// valida que que no se pueda inscrivir a la misma materia dos veses
+		
 		for (AsignacionCursoAlumno asignacion : inscripcionesAlumnos) {
 			if (asignacion.getAlumno().getDni().equals(dni) && asignacion.getCurso().getIdCurso().equals(codigoCurso)
 					&& asignacion.getCurso().getCiclo().getId().equals(curso.getCiclo().getId())) {
@@ -204,6 +194,16 @@ public class Universidad {
 		return false;
 	}
 
+	public boolean crearCicloLectivo(CicloLectivo ciclo) {
+		LocalDate inicioCiclo = ciclo.getFechaInicioCicloLectivo();
+		LocalDate finInscripcion = ciclo.getFechaFinalizacionInscripcion();
+
+		if (finInscripcion.isAfter(inicioCiclo) || finInscripcion.isEqual(inicioCiclo)) {
+			return false;
+		}
+		return ciclosLectivos.add(ciclo);
+	}
+
 	public boolean registrarNota(Integer idCurso, Integer dniAlumno, Nota nota) {
 
 		Alumno alumno = buscarAlumnoPorDNI(dniAlumno);
@@ -218,7 +218,7 @@ public class Universidad {
 		if (asignacion == null) {
 			return false;
 		}
-		
+
 		if (nota.getPrimerParcial() > 10 || nota.getSegundoParcial() > 10) {
 			return false;
 		}
@@ -233,20 +233,61 @@ public class Universidad {
 
 	}
 
-	public List<Materia> obtenerMateriasAprobadasDeUnAlumno(Integer idAlumno) {
-		List<Materia> materiasAprobadas = new ArrayList<>();
+	public List<RegistroMateriaAprobada> obtenerListadoMateriasAprobadasParaUnAlumno(int dniAlumno) {
+	    List<RegistroMateriaAprobada> materiasAprobadas = new ArrayList<>();
 
-		for (AsignacionCursoAlumno asignacion : inscripcionesAlumnos) {
-			if (asignacion.getAlumno().getDni().equals(idAlumno) && asignacion.getNota() != null) {
-				if (asignacion.getNota().promocionarMateria()) {
-					materiasAprobadas.add(asignacion.getCurso().getMateria());
-				}
-			}
-		}
+	    for (AsignacionCursoAlumno asignacion : inscripcionesAlumnos) {
+	   
+	        if (asignacion.getAlumno().getDni() == dniAlumno) {
+	            Curso curso = asignacion.getCurso();
 
-		return materiasAprobadas;
+	            if (curso.getMateria().isAprobado()) {
+	           
+	                RegistroMateriaAprobada registro = new RegistroMateriaAprobada(
+	                    asignacion.getAlumno().getDni(),
+	                    asignacion.getAlumno().getNombre(),
+	                    asignacion.getAlumno().getApellido(),
+	                    curso.getMateria().getNombre(),
+	                    asignacion.getNota().notaFinal(),
+	                    curso.getCiclo().getId()
+	                );
+
+	                materiasAprobadas.add(registro);
+	            }
+	        }
+	    }
+
+	    return materiasAprobadas;
 	}
+	
+	public List<ReporteNotasAlumno> obtenerReporteDeNotasDeAlumnosDeCurso(int idCurso) {
+	    List<ReporteNotasAlumno> reporteNotas = new ArrayList<>();
 
+	  
+	    for (AsignacionCursoAlumno asignacion : inscripcionesAlumnos) {
+	        Curso curso = asignacion.getCurso();
+
+	        if (curso.getIdCurso() == idCurso) {
+	        	
+	            Alumno alumno = asignacion.getAlumno();
+	            Nota nota = asignacion.getNota();
+
+	         
+	            ReporteNotasAlumno registro = new ReporteNotasAlumno(
+	                curso.getIdCurso(),
+	                curso.getMateria().getNombre(),
+	                alumno.getDni(),
+	                alumno.getNombre(),
+	                alumno.getApellido(),
+	                nota.notaFinal()
+	            );
+
+	            reporteNotas.add(registro);
+	        }
+	    }
+
+	    return reporteNotas;
+	}
 	public Nota obtenerNota(Integer dni, Integer codigoMateria) {
 
 		for (AsignacionCursoAlumno asignacion : inscripcionesAlumnos) {
@@ -327,8 +368,5 @@ public class Universidad {
 		}
 		return null;
 	}
-
-	
-	
 
 }

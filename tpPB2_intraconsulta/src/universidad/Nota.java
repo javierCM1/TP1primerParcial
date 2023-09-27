@@ -30,6 +30,8 @@ public class Nota {
 	public void setSegundoParcial(Integer segundoParcial) {
 		this.segundoParcial = segundoParcial;
 	}
+	
+	
 
 	public boolean registrarRecuperatorioPrimerParcial(Integer nota) {
 		if(nota > 10) {
@@ -85,5 +87,29 @@ public class Nota {
 		}
 
 		return false;
+	}
+	
+	public Integer notaFinal() {
+		Integer nota = null;
+		if(recuperatorioSegundoParcial == null && recuperatorioPrimerParcial == null && examenFinal == null) {
+			nota = (primerParcial + segundoParcial)/2;
+			return nota;
+		}
+		
+		if(recuperatorioSegundoParcial != null) {
+			nota = (primerParcial+recuperatorioSegundoParcial)/2;
+			return nota;
+		}
+		
+		if(recuperatorioPrimerParcial != null) {
+			nota = (segundoParcial+recuperatorioPrimerParcial)/2;
+			return nota;
+		}
+		
+		if(examenFinal != null && examenFinal<=4) {
+			return this.examenFinal;
+		}
+		
+		return nota;
 	}
 }
